@@ -10,6 +10,8 @@ public class AssignmentDS {
 
     public static void main(String[] args) {
         
+       double QueueTT, QueueRT, StackTT, StackRT, LLLIFOTT, LLLIFORT, LLFIFOTT, LLFIFORT;
+       
        SchedulingSystem Queue = new SchedulingSystem();
        SchedulingSystem LLLIFO = new SchedulingSystem();
        SchedulingSystem LLFIFO = new SchedulingSystem();
@@ -35,23 +37,72 @@ public class AssignmentDS {
         }
         //Execute using Queue
         Queue.executeTasksQueue();
-        System.out.println("Queue Average Response Time: " + Queue.getAverageResponseTime());
-        System.out.println("Queue Average Turnaround Time: " + Queue.getAverageTurnaroundTime());
+        QueueRT = Queue.getAverageResponseTime();
+        QueueTT = Queue.getAverageTurnaroundTime();
+        System.out.println("Queue Average Response Time: " + QueueRT);
+        System.out.println("Queue Average Turnaround Time: " + QueueTT);
         System.out.println("");
         //Execute LL LIFO
         LLLIFO.executeTasksLLLIFO();
-        System.out.println("LL LIFO Average Response Time: " + LLLIFO.getAverageResponseTime());
-        System.out.println("LL LIFO Average Turnaround Time: " + LLLIFO.getAverageTurnaroundTime());
+        LLLIFORT = LLLIFO.getAverageResponseTime();
+        LLLIFOTT = LLLIFO.getAverageTurnaroundTime();
+        System.out.println("LL LIFO Average Response Time: " + LLLIFORT);
+        System.out.println("LL LIFO Average Turnaround Time: " + LLLIFOTT);
         System.out.println("");
         // Execute LL FIFO
         LLFIFO.executeTasksLLFIFO();
-        System.out.println("LL FIFO Average Response Time: " + LLFIFO.getAverageResponseTime());
-        System.out.println("LL FIFO Average Turnaround Time: " + LLFIFO.getAverageTurnaroundTime());
+        LLFIFORT = LLFIFO.getAverageResponseTime();
+        LLFIFOTT = LLFIFO.getAverageTurnaroundTime();
+        System.out.println("LL FIFO Average Response Time: " + LLFIFORT);
+        System.out.println("LL FIFO Average Turnaround Time: " + LLFIFOTT);
         System.out.println("");
         // Execute tasks using Stack
         Stack.executeTasksStack();
-        System.out.println("Stack Average Response Time: " + Stack.getAverageResponseTime());
-        System.out.println("Stack Average Turnaround Time: " + Stack.getAverageTurnaroundTime());
+        StackRT = Stack.getAverageResponseTime();
+        StackTT = Stack.getAverageTurnaroundTime();
+        System.out.println("Stack Average Response Time: " + StackRT);
+        System.out.println("Stack Average Turnaround Time: " + StackTT);
+        
+        System.out.println(comparePerformance(QueueRT, QueueTT, LLLIFORT, LLLIFOTT, LLFIFORT, LLFIFOTT, StackRT, StackTT));
+
+    }
+    
+    public static String comparePerformance(double queueRT, double queueTT, double lllifoRT, double lllifoTT, double llfifoRT, double llfifoTT, double stackRT, double stackTT) {
+
+        double fastestResponseTime = Math.min(queueRT, Math.min(lllifoRT, Math.min(llfifoRT, stackRT)));
+        double fastestTurnaroundTime = Math.min(queueTT, Math.min(lllifoTT, Math.min(llfifoTT, stackTT)));
+
+        StringBuilder result = new StringBuilder();
+        result.append("Comparison of Data Structures:\n");
+        result.append("Fastest Response Time: ").append(fastestResponseTime).append(" microseconds (");
+
+        if (fastestResponseTime == queueRT) {
+            result.append("Queue)");
+        } else if (fastestResponseTime == lllifoRT) {
+            result.append("LL LIFO)");
+        } else if (fastestResponseTime == llfifoRT) {
+            result.append("LL FIFO)");
+        } else if (fastestResponseTime == stackRT) {
+            result.append("Stack)");
+        }
+
+        result.append("\n");
+
+        result.append("Fastest Turnaround Time: ").append(fastestTurnaroundTime).append(" microseconds (");
+
+        if (fastestTurnaroundTime == queueTT) {
+            result.append("Queue)");
+        } else if (fastestTurnaroundTime == lllifoTT) {
+            result.append("LL LIFO)");
+        } else if (fastestTurnaroundTime == llfifoTT) {
+            result.append("LL FIFO)");
+        } else if (fastestTurnaroundTime == stackTT) {
+            result.append("Stack)");
+        }
+
+        result.append("\n");
+
+        return result.toString();
     }
     
 }
